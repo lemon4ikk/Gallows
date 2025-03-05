@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gallows/draw"
 	"os"
+	"strings"
 	"time"
 	"unicode/utf8"
 )
@@ -40,7 +41,7 @@ func Start() {
 
 	lenWord := make([]rune, utf8.RuneCountInString(test_word))
 	var usrErr int
-	var flagErr uint8
+	var flagErr bool
 	var char string
 	s := []string{}
 
@@ -75,7 +76,7 @@ func Start() {
 		scanner.Scan()
 		char = scanner.Text()
 
-		err := CheckUserChar(file, char)
+		err := CheckUserChar(file, &char)
 
 		if err != nil {
 			fmt.Println("Введен некоректный символ. Попробуйте снова.")
@@ -85,12 +86,12 @@ func Start() {
 
 		var index int
 
-		flagErr = 1
+		flagErr = false
 		for _, runeValue := range word {
 			for _, runeChar := range char {
 				if runeChar == runeValue {
 					lenWord[index] = runeChar
-					flagErr = 0
+					flagErr = true
 					break
 				}
 			}
@@ -99,11 +100,11 @@ func Start() {
 
 		for i := 0; i < len(s); i++ {
 			if s[i] == char {
-				flagErr = 0
+				flagErr = true
 			}
 		}
 
-		if flagErr == 1 {
+		if !flagErr {
 			s = append(s, char)
 			usrErr += 1
 		}
@@ -126,12 +127,13 @@ func ClearTerminal() {
 	fmt.Print("\033[H\033[2J")
 }
 
-func CheckUserChar(f *os.File, c string) error {
+func CheckUserChar(f *os.File, c *string) error {
 	input := bufio.NewScanner(f)
 	a := false
 
 	for input.Scan() {
-		if input.Text() == c {
+		if strings.EqualFold(input.Text(), *c) {
+			*c = strings.ToLower(*c)
 			a = true
 			break
 		}
