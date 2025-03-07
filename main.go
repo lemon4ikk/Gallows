@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"gallows/draw"
+	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -32,7 +33,24 @@ func main() {
 }
 
 func Start() {
-	word := "человек"
+	dictionaryFile := "dictionary.txt"
+	var dictionary []string
+	file, e := os.Open(dictionaryFile)
+
+	if e != nil {
+		fmt.Fprintf(os.Stderr, "Ошибка при открытии файла!\n%v", e)
+	}
+
+	scanWord := bufio.NewScanner(file)
+
+	for scanWord.Scan() {
+		dictionary = append(dictionary, scanWord.Text())
+	}
+
+	index := rand.Intn(len(dictionary))
+	file.Close()
+
+	word := dictionary[index]
 	var test_word string
 
 	for i := 0; i < utf8.RuneCountInString(word); i++ {
