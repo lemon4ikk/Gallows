@@ -160,7 +160,7 @@ func CheckUserChar(f *os.File, c *string) error {
 	f.Close()
 
 	if !a {
-		return fmt.Errorf("введен некоректный символ")
+		return fmt.Errorf("введен некорректный символ")
 	}
 
 	return nil
