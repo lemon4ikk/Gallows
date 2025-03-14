@@ -4,12 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"gallows/draw"
-	"gallows/utils"
 	"log"
 	"os"
 	"reflect"
 	"strings"
 	"time"
+)
+
+const (
+	maxUserErrors     = 6
+	stepWord          = 2
+	numSecondsWaiting = 2
 )
 
 func GameLogic(filename string, secretWord []rune, expectedWord string, word string) {
@@ -18,11 +23,6 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 	var char string
 	wrongLetters := []string{}
 	letters := []string{}
-	const (
-		maxUserErrors     = 6
-		stepWord          = 2
-		numSecondsWaiting = 2
-	)
 
 	inputFile, err := os.Open(filename)
 	if err != nil {
@@ -41,7 +41,7 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 	}
 
 	for numUserErr < maxUserErrors {
-		utils.ClearTerminal()
+		draw.ClearTerminal()
 
 		err := draw.Rendering(numUserErr)
 		if err != nil {
@@ -92,7 +92,7 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 		}
 
 		if reflect.DeepEqual([]rune(expectedWord), secretWord) {
-			utils.ClearTerminal()
+			draw.ClearTerminal()
 			err = draw.Rendering(numUserErr)
 			if err != nil {
 				log.Fatalf("error: %v", err)
@@ -103,7 +103,7 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 		}
 	}
 
-	utils.ClearTerminal()
+	draw.ClearTerminal()
 	err = draw.Rendering(numUserErr)
 	if err != nil {
 		log.Fatalf("error: %v", err)
