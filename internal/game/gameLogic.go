@@ -3,7 +3,7 @@ package game
 import (
 	"bufio"
 	"fmt"
-	"gallows/draw"
+	"gallows/internal/draw"
 	"log"
 	"os"
 	"reflect"

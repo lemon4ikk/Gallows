@@ -1,9 +1,8 @@
-package main
+package game
 
 import (
 	"bufio"
 	"fmt"
-	"gallows/game"
 	"os"
 )
 
@@ -12,7 +11,7 @@ const (
 	exitCommand  = "Выйти"
 )
 
-func main() {
+func Menu() {
 	var userMsg string
 
 	fmt.Println("Для начала игры введите: " + startCommand)
@@ -27,6 +26,6 @@ func main() {
 	}
 
 	if userMsg == startCommand {
-		game.Start()
+		Start()
 	}
 }
