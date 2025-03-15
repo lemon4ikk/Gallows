@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	lettersFile    = "list_of_letters.txt"
-	dictionaryFile = "dictionary.txt"
+	lettersFile    = "./list_of_letters.txt"
+	dictionaryFile = "./dictionary.txt"
 )
 
 func Start() {
@@ -44,7 +44,6 @@ func Start() {
 	for range word {
 		underscore = append(underscore, "_")
 	}
-
 	expectedWord = strings.Join(underscore, " ")
 
 	secretWord := make([]rune, utf8.RuneCountInString(expectedWord))

@@ -6,7 +6,6 @@ import (
 	"gallows/internal/draw"
 	"log"
 	"os"
-	"reflect"
 	"strings"
 	"time"
 )
@@ -21,6 +20,8 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 	var numUserErr int
 	var flagErr bool
 	var char string
+	var counter int
+	decomposedWord := []rune(expectedWord)
 	wrongLetters := []string{}
 	letters := []string{}
 
@@ -74,6 +75,7 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 				if runeChar == runeValue {
 					secretWord[index] = runeChar
 					flagErr = true
+					counter = counter + 1
 					break
 				}
 			}
@@ -91,15 +93,25 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 			numUserErr += 1
 		}
 
-		if reflect.DeepEqual([]rune(expectedWord), secretWord) {
-			draw.ClearTerminal()
-			err = draw.Rendering(numUserErr)
-			if err != nil {
-				log.Fatalf("error: %v", err)
+		if len(secretWord) == len(decomposedWord) {
+			equal := true
+			for i := range secretWord {
+				if secretWord[i] != decomposedWord[i] {
+					equal = false
+					break
+				}
 			}
-			fmt.Printf("Слово: %s\n", string(secretWord))
-			fmt.Println("Поздравляем, вы отгадали слово!")
-			os.Exit(0)
+
+			if equal {
+				draw.ClearTerminal()
+				err = draw.Rendering(numUserErr)
+				if err != nil {
+					log.Fatalf("error: %v", err)
+				}
+				fmt.Printf("Слово: %s\n", string(secretWord))
+				fmt.Println("Поздравляем, вы отгадали слово!")
+				os.Exit(0)
+			}
 		}
 	}
 
