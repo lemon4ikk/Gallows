@@ -19,13 +19,13 @@
 
    ```sh
    git clone https://github.com/lemon4ikk/Gallows.git
-   cd hangman-go
+   cd Gallows
    ```
 
 3. Запустите игру:
 
    ```sh
-   go run main.go
+   go run cmd/main.go
    ```
 
 ## Использование
