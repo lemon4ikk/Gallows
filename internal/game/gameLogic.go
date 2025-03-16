@@ -41,6 +41,8 @@ func GameLogic(filename string, secretWord []rune, expectedWord string, word str
 		letters = append(letters, input.Text())
 	}
 
+	inputFile.Close()
+
 	for numUserErr < maxUserErrors {
 		draw.ClearTerminal()
 
